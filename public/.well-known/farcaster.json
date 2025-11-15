@@ -12,5 +12,15 @@
     "imageUrl": "https://transaction-seance.vercel.app/api/splash",
     "splashImageUrl": "https://transaction-seance.vercel.app/api/splash",
     "splashBackgroundColor": "#1a0b2e"
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Transaction Séance",
+    "description": "Invoke the spirits of forgotten transactions on Base blockchain",
+    "iconUrl": "https://transaction-seance.vercel.app/api/icon",
+    "homeUrl": "https://transaction-seance.vercel.app",
+    "canonicalDomain": "transaction-seance.vercel.app",
+    "requiredChains": ["eip155:8453"],
+    "tags": ["base", "blockchain", "nft", "ghost", "transactions"]
   }
 }
