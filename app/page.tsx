@@ -10,6 +10,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
 import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useConnectorClient } from 'wagmi';
 import { parseEther, getAddress } from 'viem';
+import { useMiniKit } from '@coinbase/onchainkit/minikit';
 
 // Dirección de treasury para recibir fees (desde variables de entorno)
 const TREASURY_ADDRESS = process.env.NEXT_PUBLIC_TREASURY_ADDRESS as `0x${string}`;
@@ -22,6 +23,9 @@ export default function Home() {
   const [freeMode, setFreeMode] = useState(false); // Modo gratis para testing
   const [mounted, setMounted] = useState(false); // Para evitar hidratación
   const { t, language } = useLanguage();
+
+  // MiniKit hook para detectar el contexto (Base App o Farcaster)
+  const { frameContext, isReady } = useMiniKit();
 
   // Wagmi hooks para wallet
   const { address, isConnected, connector } = useAccount();
@@ -48,6 +52,16 @@ export default function Home() {
     };
     initSdk();
   }, []);
+
+  // Log MiniKit context for debugging
+  useEffect(() => {
+    console.log('[MiniKit] Context:', {
+      frameContext,
+      isReady,
+      isConnected,
+      address,
+    });
+  }, [frameContext, isReady, isConnected, address]);
 
   const invokeGhost = async () => {
     setLoading(true);
