@@ -40,6 +40,21 @@ export default function Home() {
     setMounted(true);
   }, []);
 
+  // IMPORTANTE: Inicializar SDK de Farcaster para que Base App detecte la app como Mini App
+  // Este SDK maneja la detección, mientras que MiniKit maneja la funcionalidad
+  useEffect(() => {
+    const initFarcasterSDK = async () => {
+      try {
+        // El SDK de Farcaster debe inicializarse para que Base App reconozca la app
+        await sdk.actions.ready();
+        console.log('[Farcaster SDK] Initialized - App detected as Mini App');
+      } catch (err) {
+        console.warn('[Farcaster SDK] Init failed (expected if not in Mini App):', err);
+      }
+    };
+    initFarcasterSDK();
+  }, []);
+
   // Inicializar MiniKit (marca la app como lista y oculta splash screen)
   useEffect(() => {
     if (!isMiniAppReady) {
