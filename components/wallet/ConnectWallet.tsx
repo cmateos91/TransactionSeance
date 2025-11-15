@@ -28,9 +28,12 @@ export function ConnectWallet() {
         connectorsCount: connectors.length
       });
       // Farcaster Mini App solo tiene un conector
-      connect({ connector: connectors[0] })
-        .then(() => console.log('[ConnectWallet] Auto-connect successful'))
-        .catch((err) => console.log('[ConnectWallet] Auto-connect failed:', err));
+      try {
+        connect({ connector: connectors[0] });
+        console.log('[ConnectWallet] Auto-connect initiated');
+      } catch (err) {
+        console.log('[ConnectWallet] Auto-connect failed:', err);
+      }
     }
   }, [mounted, isConnected, connectors, connect]);
 
