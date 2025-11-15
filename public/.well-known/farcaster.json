@@ -1,15 +1,15 @@
 {
   "accountAssociation": {
-    "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg0OGI4OEY3RTMxQjQxZTUwNDRBMDYyNWE1QTI0MjAwMGY0ZjdlRGRCIn0",
+    "header": "eyJmaWQiOjQ0Mzg4OSwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweEJCYUMwOTkyYTkzYzRBZGM0Q0FlQ0VjMEMzQWU3MzMzMDQyMjUyODEifQ",
     "payload": "eyJkb21haW4iOiJ0cmFuc2FjdGlvbi1zZWFuY2UudmVyY2VsLmFwcCJ9",
-    "signature": "MHg3MzljNDNiMjZhZTcwNWJlNWU0YjA5M2E5ZTcxYTQ5OWE5Y2Q1ZTNiMzJkMmJmZDIwMTc0MDMwMzJlYjQwYzY0MDMwNjI4NjU3M2JiNDNhOTc0MzgwOGI4NGRlM2Q5ODMzY2E3OGNlZGIxZDhiNWJkOGVlOGJiZDU3Y2M1NzAwMWI"
+    "signature": "u/LIWWM5pYAinY0DpzbBw7xu8o++mvFRx3Sz0LickzUefRzYnGmm/uA2iZQp7McD1tLW27ixIur41gZXHZztyRw="
   },
   "frame": {
     "version": "1",
     "name": "Transaction Séance",
-    "iconUrl": "https://transaction-seance.vercel.app/icon.png",
-    "splashImageUrl": "https://transaction-seance.vercel.app/splash.png",
-    "splashBackgroundColor": "#1a0b2e",
-    "homeUrl": "https://transaction-seance.vercel.app"
+    "homeUrl": "https://transaction-seance.vercel.app",
+    "iconUrl": "https://transaction-seance.vercel.app/api/icon",
+    "splashImageUrl": "https://transaction-seance.vercel.app/api/splash",
+    "splashBackgroundColor": "#1a0b2e"
   }
 }
