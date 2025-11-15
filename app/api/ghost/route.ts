@@ -3,12 +3,15 @@
 import { NextResponse } from 'next/server';
 import { getRandomFailedTransactions } from '@/lib/api/basescan';
 import { generateGhost } from '@/lib/generators/ghost-generator';
+import { es } from '@/lib/i18n/locales/es';
+import { en } from '@/lib/i18n/locales/en';
 
 export async function GET(request: Request) {
   try {
     // Obtener idioma de los query params
     const { searchParams } = new URL(request.url);
     const lang = (searchParams.get('lang') || 'es') as 'es' | 'en';
+    const t = lang === 'es' ? es : en;
 
     // Reintentar hasta 10 veces para garantizar que encontramos un fantasma
     const maxAttempts = 10;
@@ -40,7 +43,7 @@ export async function GET(request: Request) {
     if (transactions.length === 0) {
       console.error(`❌ No se encontraron transacciones después de ${maxAttempts} intentos`);
       return NextResponse.json(
-        { error: 'No se pudieron encontrar transacciones fallidas después de múltiples intentos. Por favor, intenta de nuevo.' },
+        { error: t.errors.noTransactionsFound },
         { status: 503 }
       );
     }

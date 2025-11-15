@@ -206,6 +206,38 @@ export const es = {
     title: 'Información de Atributos',
     close: 'Cerrar',
   },
+
+  // Mensajes de error
+  errors: {
+    invokeGhost: 'Error al invocar fantasma',
+    unknown: 'Error desconocido',
+    noTransactionsFound: 'No se pudieron encontrar transacciones fallidas después de múltiples intentos. Por favor, intenta de nuevo.',
+    prefix: 'Error:',
+  },
+
+  // Wallet y transacciones
+  wallet: {
+    loading: 'Cargando...',
+    connected: 'Wallet conectada',
+    disconnect: 'Desconectar',
+    connect: 'Conectar Wallet',
+    confirmingPayment: 'Confirmando pago...',
+    waitingConfirmation: 'Esperando confirmación...',
+    acceptTransaction: 'Acepta la transacción en tu wallet',
+    waitingBlockchain: 'Esperando que se confirme en la blockchain',
+    connectFirst: 'Conecta tu wallet primero o usa el modo gratis',
+    sendFeeError: 'Error al enviar fee',
+    transactionError: 'Error al enviar transacción',
+    freeMode: 'Modo gratis (sin wallet)',
+    free: 'GRATIS',
+    connectOrFree: 'Conecta tu wallet para invocar con fee, o activa el modo gratis',
+  },
+
+  // Accesibilidad
+  accessibility: {
+    information: 'Información',
+    changeLanguage: 'Cambiar idioma',
+  },
 };
 
 export type Translations = typeof es;

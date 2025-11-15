@@ -59,12 +59,12 @@ export default function Home() {
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.error || 'Error al invocar fantasma');
+          throw new Error(data.error || t.errors.invokeGhost);
         }
 
         setGhost(data.ghost);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido');
+        setError(err instanceof Error ? err.message : t.errors.unknown);
       } finally {
         setLoading(false);
       }
@@ -73,7 +73,7 @@ export default function Home() {
 
     // Modo con fee: verificar wallet conectada
     if (!isConnected) {
-      setError('Conecta tu wallet primero o usa el modo gratis');
+      setError(t.wallet.connectFirst);
       setLoading(false);
       return;
     }
@@ -88,7 +88,7 @@ export default function Home() {
       // Esperar confirmación de la transacción
       // La UI mostrará el estado de confirmación
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al enviar fee');
+      setError(err instanceof Error ? err.message : t.wallet.sendFeeError);
       setLoading(false);
     }
   };
@@ -96,10 +96,10 @@ export default function Home() {
   // Efecto para manejar errores de transacción
   useEffect(() => {
     if (txError) {
-      setError(txError.message || 'Error al enviar transacción');
+      setError(txError.message || t.wallet.transactionError);
       setLoading(false);
     }
-  }, [txError]);
+  }, [txError, t.wallet.transactionError]);
 
   // Efecto para invocar fantasma después de confirmar transacción
   useEffect(() => {
@@ -110,12 +110,12 @@ export default function Home() {
           const data = await response.json();
 
           if (!response.ok) {
-            throw new Error(data.error || 'Error al invocar fantasma');
+            throw new Error(data.error || t.errors.invokeGhost);
           }
 
           setGhost(data.ghost);
         } catch (err) {
-          setError(err instanceof Error ? err.message : 'Error desconocido');
+          setError(err instanceof Error ? err.message : t.errors.unknown);
         } finally {
           setLoading(false);
         }
@@ -165,7 +165,7 @@ export default function Home() {
                 className="w-4 h-4 cursor-pointer"
               />
               <span className="text-sm text-gray-300">
-                Modo gratis (sin wallet)
+                {t.wallet.freeMode}
               </span>
             </label>
           </div>
@@ -185,7 +185,7 @@ export default function Home() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span>Confirmando pago...</span>
+                  <span>{t.wallet.confirmingPayment}</span>
                 </span>
               ) : isConfirming ? (
                 <span className="flex items-center justify-center gap-3">
@@ -193,7 +193,7 @@ export default function Home() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span>Esperando confirmación...</span>
+                  <span>{t.wallet.waitingConfirmation}</span>
                 </span>
               ) : loading ? (
                 <span className="flex items-center justify-center gap-3">
@@ -207,18 +207,18 @@ export default function Home() {
                 <span className="flex flex-col items-center gap-1">
                   <span>{t.page.invokeButton}</span>
                   {!freeMode && <span className="text-xs opacity-75">{INVOCATION_FEE} ETH</span>}
-                  {freeMode && <span className="text-xs opacity-75 text-green-300">GRATIS</span>}
+                  {freeMode && <span className="text-xs opacity-75 text-green-300">{t.wallet.free}</span>}
                 </span>
               )}
             </button>
 
             {error && (
-              <p className="text-red-400 mt-4 text-sm">Error: {error}</p>
+              <p className="text-red-400 mt-4 text-sm">{t.errors.prefix} {error}</p>
             )}
 
             {mounted && !isConnected && !freeMode && (
               <p className="text-yellow-400 mt-4 text-sm">
-                Conecta tu wallet para invocar con fee, o activa el modo gratis
+                {t.wallet.connectOrFree}
               </p>
             )}
           </div>
@@ -233,10 +233,10 @@ export default function Home() {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
               <p className="text-xl font-semibold text-white">
-                {isSendingTx ? 'Confirmando pago...' : isConfirming ? 'Esperando confirmación...' : t.page.invoking}
+                {isSendingTx ? t.wallet.confirmingPayment : isConfirming ? t.wallet.waitingConfirmation : t.page.invoking}
               </p>
               <p className="text-gray-400 text-sm mt-2">
-                {isSendingTx ? 'Acepta la transacción en tu wallet' : isConfirming ? 'Esperando que se confirme en la blockchain' : t.page.loadingSubtitle}
+                {isSendingTx ? t.wallet.acceptTransaction : isConfirming ? t.wallet.waitingBlockchain : t.page.loadingSubtitle}
               </p>
             </div>
           </div>

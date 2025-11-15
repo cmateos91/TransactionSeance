@@ -208,4 +208,36 @@ export const en: Translations = {
     title: 'Attribute Information',
     close: 'Close',
   },
+
+  // Error messages
+  errors: {
+    invokeGhost: 'Error invoking ghost',
+    unknown: 'Unknown error',
+    noTransactionsFound: 'Could not find failed transactions after multiple attempts. Please try again.',
+    prefix: 'Error:',
+  },
+
+  // Wallet and transactions
+  wallet: {
+    loading: 'Loading...',
+    connected: 'Wallet connected',
+    disconnect: 'Disconnect',
+    connect: 'Connect Wallet',
+    confirmingPayment: 'Confirming payment...',
+    waitingConfirmation: 'Waiting for confirmation...',
+    acceptTransaction: 'Accept the transaction in your wallet',
+    waitingBlockchain: 'Waiting for blockchain confirmation',
+    connectFirst: 'Connect your wallet first or use free mode',
+    sendFeeError: 'Error sending fee',
+    transactionError: 'Error sending transaction',
+    freeMode: 'Free mode (no wallet)',
+    free: 'FREE',
+    connectOrFree: 'Connect your wallet to invoke with fee, or activate free mode',
+  },
+
+  // Accessibility
+  accessibility: {
+    information: 'Information',
+    changeLanguage: 'Change language',
+  },
 } as const;
