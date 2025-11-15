@@ -25,7 +25,7 @@ export default function Home() {
   const { t, language } = useLanguage();
 
   // MiniKit hook para detectar el contexto (Base App o Farcaster)
-  const { frameContext, isReady } = useMiniKit();
+  const { context, isReady } = useMiniKit();
 
   // Wagmi hooks para wallet
   const { address, isConnected, connector } = useAccount();
@@ -56,12 +56,12 @@ export default function Home() {
   // Log MiniKit context for debugging
   useEffect(() => {
     console.log('[MiniKit] Context:', {
-      frameContext,
+      context,
       isReady,
       isConnected,
       address,
     });
-  }, [frameContext, isReady, isConnected, address]);
+  }, [context, isReady, isConnected, address]);
 
   const invokeGhost = async () => {
     setLoading(true);
