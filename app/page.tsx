@@ -155,9 +155,8 @@ export default function Home() {
             <ConnectWallet />
           </div>
 
-          {/* Toggle modo gratis - COMENTADO PARA PRODUCCIÓN */}
-          {/* Descomentar solo para testing en desarrollo */}
-          {/* <div className="flex justify-center items-center gap-3">
+          {/* Toggle modo gratis - Permite a los usuarios elegir entre gratis o pagar fee */}
+          <div className="flex justify-center items-center gap-3">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -166,10 +165,10 @@ export default function Home() {
                 className="w-4 h-4 cursor-pointer"
               />
               <span className="text-sm text-gray-300">
-                Sin fee
+                Modo gratis (sin wallet)
               </span>
             </label>
-          </div> */}
+          </div>
         </div>
 
         {/* Botón de invocar - optimizado móvil */}
