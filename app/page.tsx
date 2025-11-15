@@ -10,7 +10,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
 import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useConnectorClient } from 'wagmi';
 import { parseEther, getAddress } from 'viem';
-import { useMiniKit } from '@coinbase/onchainkit/minikit';
+// import { useMiniKit } from '@coinbase/onchainkit/minikit'; // Deshabilitado - puede causar conflicto con Base App
 
 // Dirección de treasury para recibir fees (desde variables de entorno)
 const TREASURY_ADDRESS = process.env.NEXT_PUBLIC_TREASURY_ADDRESS as `0x${string}`;
@@ -24,8 +24,8 @@ export default function Home() {
   const [mounted, setMounted] = useState(false); // Para evitar hidratación
   const { t, language } = useLanguage();
 
-  // MiniKit hook para detectar el contexto (Base App o Farcaster)
-  const { context, isMiniAppReady, setMiniAppReady } = useMiniKit();
+  // Estado para contexto de Mini App
+  const [miniAppContext, setMiniAppContext] = useState<any>(null);
 
   // Wagmi hooks para wallet
   const { address, isConnected, connector } = useAccount();
@@ -40,37 +40,40 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  // IMPORTANTE: Inicializar SDK de Farcaster para que Base App detecte la app como Mini App
-  // Este SDK maneja la detección, mientras que MiniKit maneja la funcionalidad
+  // Inicializar SDK de Farcaster para que Base App detecte la app como Mini App
   useEffect(() => {
-    const initFarcasterSDK = async () => {
+    const initSDK = async () => {
       try {
-        // El SDK de Farcaster debe inicializarse para que Base App reconozca la app
+        // Llamar a ready() para que Base App detecte la app
         await sdk.actions.ready();
-        console.log('[Farcaster SDK] Initialized - App detected as Mini App');
+
+        // Obtener contexto
+        const ctx = await sdk.context;
+        setMiniAppContext(ctx);
+
+        console.log('[Farcaster SDK] Initialized:', {
+          context: ctx,
+          isInMiniApp: !!ctx,
+          clientFid: ctx?.client?.clientFid,
+        });
       } catch (err) {
-        console.warn('[Farcaster SDK] Init failed (expected if not in Mini App):', err);
+        console.warn('[Farcaster SDK] Not in Mini App context:', err);
       }
     };
-    initFarcasterSDK();
+
+    initSDK();
   }, []);
 
-  // Inicializar MiniKit (marca la app como lista y oculta splash screen)
+  // Log context for debugging
   useEffect(() => {
-    if (!isMiniAppReady) {
-      setMiniAppReady();
+    if (miniAppContext) {
+      console.log('[Mini App] Running in:', {
+        client: miniAppContext.client?.clientFid === 309857 ? 'Base App' : 'Farcaster',
+        isConnected,
+        address,
+      });
     }
-  }, [isMiniAppReady, setMiniAppReady]);
-
-  // Log MiniKit context for debugging
-  useEffect(() => {
-    console.log('[MiniKit] Context:', {
-      context,
-      isMiniAppReady,
-      isConnected,
-      address,
-    });
-  }, [context, isMiniAppReady, isConnected, address]);
+  }, [miniAppContext, isConnected, address]);
 
   const invokeGhost = async () => {
     setLoading(true);
