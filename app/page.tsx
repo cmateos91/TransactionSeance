@@ -8,7 +8,7 @@ import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { StarryBackground } from '@/components/ui/StarryBackground';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
-import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useConnectorClient } from 'wagmi';
 import { parseEther, getAddress } from 'viem';
 
 // Dirección de treasury para recibir fees (desde variables de entorno)
@@ -24,7 +24,8 @@ export default function Home() {
   const { t, language } = useLanguage();
 
   // Wagmi hooks para wallet
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, connector } = useAccount();
+  const { data: connectorClient } = useConnectorClient();
   const { sendTransaction, data: txHash, isPending: isSendingTx, error: txError } = useSendTransaction();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash: txHash,
@@ -78,7 +79,22 @@ export default function Home() {
       return;
     }
 
+    // Verificar que el connector y connectorClient estén listos
+    if (!connector || !connectorClient) {
+      console.error('[InvokeGhost] Connector or connectorClient not ready', { connector, connectorClient });
+      setError('Wallet no está completamente conectada. Intenta reconectar.');
+      setLoading(false);
+      return;
+    }
+
     try {
+      console.log('[InvokeGhost] Sending transaction', {
+        to: TREASURY_ADDRESS,
+        value: INVOCATION_FEE,
+        connector: connector?.name,
+        connectorClient: !!connectorClient,
+      });
+
       // Enviar fee configurado en variables de entorno
       sendTransaction({
         to: TREASURY_ADDRESS,
@@ -88,6 +104,7 @@ export default function Home() {
       // Esperar confirmación de la transacción
       // La UI mostrará el estado de confirmación
     } catch (err) {
+      console.error('[InvokeGhost] Transaction error:', err);
       setError(err instanceof Error ? err.message : t.wallet.sendFeeError);
       setLoading(false);
     }

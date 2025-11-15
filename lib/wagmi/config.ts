@@ -11,6 +11,7 @@ export const config = createConfig({
     [base.id]: http(),
     [baseSepolia.id]: http(),
   },
+  ssr: true, // Habilitar SSR para evitar problemas de reconexión
 });
 
 // Declarar tipos para TypeScript
