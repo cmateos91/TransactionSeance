@@ -14,11 +14,23 @@ export function ConnectWallet() {
     setMounted(true);
   }, []);
 
+  // Log wallet state
+  useEffect(() => {
+    console.log('[ConnectWallet] Wallet state:', { isConnected, address, mounted });
+  }, [isConnected, address, mounted]);
+
   // Auto-conectar si el usuario ya autorizó
   useEffect(() => {
     if (mounted && !isConnected && connectors.length > 0) {
+      console.log('[ConnectWallet] Attempting auto-connect...', {
+        mounted,
+        isConnected,
+        connectorsCount: connectors.length
+      });
       // Farcaster Mini App solo tiene un conector
-      connect({ connector: connectors[0] });
+      connect({ connector: connectors[0] })
+        .then(() => console.log('[ConnectWallet] Auto-connect successful'))
+        .catch((err) => console.log('[ConnectWallet] Auto-connect failed:', err));
     }
   }, [mounted, isConnected, connectors, connect]);
 
