@@ -25,7 +25,7 @@ export default function Home() {
   const { t, language } = useLanguage();
 
   // MiniKit hook para detectar el contexto (Base App o Farcaster)
-  const { context, isReady } = useMiniKit();
+  const { context, isMiniAppReady, setMiniAppReady } = useMiniKit();
 
   // Wagmi hooks para wallet
   const { address, isConnected, connector } = useAccount();
@@ -40,28 +40,22 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  // Inicializar Farcaster Mini App SDK
+  // Inicializar MiniKit (marca la app como lista y oculta splash screen)
   useEffect(() => {
-    const initSdk = async () => {
-      try {
-        await sdk.actions.ready();
-        console.log('Farcaster Mini App SDK initialized');
-      } catch (err) {
-        console.error('Failed to initialize Farcaster SDK:', err);
-      }
-    };
-    initSdk();
-  }, []);
+    if (!isMiniAppReady) {
+      setMiniAppReady();
+    }
+  }, [isMiniAppReady, setMiniAppReady]);
 
   // Log MiniKit context for debugging
   useEffect(() => {
     console.log('[MiniKit] Context:', {
       context,
-      isReady,
+      isMiniAppReady,
       isConnected,
       address,
     });
-  }, [context, isReady, isConnected, address]);
+  }, [context, isMiniAppReady, isConnected, address]);
 
   const invokeGhost = async () => {
     setLoading(true);
