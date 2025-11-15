@@ -1,0 +1,15 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg0OGI4OEY3RTMxQjQxZTUwNDRBMDYyNWE1QTI0MjAwMGY0ZjdlRGRCIn0",
+    "payload": "eyJkb21haW4iOiJ0cmFuc2FjdGlvbi1zZWFuY2UudmVyY2VsLmFwcCJ9",
+    "signature": "MHg3MzljNDNiMjZhZTcwNWJlNWU0YjA5M2E5ZTcxYTQ5OWE5Y2Q1ZTNiMzJkMmJmZDIwMTc0MDMwMzJlYjQwYzY0MDMwNjI4NjU3M2JiNDNhOTc0MzgwOGI4NGRlM2Q5ODMzY2E3OGNlZGIxZDhiNWJkOGVlOGJiZDU3Y2M1NzAwMWI"
+  },
+  "frame": {
+    "version": "1",
+    "name": "Transaction Séance",
+    "iconUrl": "https://transaction-seance.vercel.app/icon.png",
+    "splashImageUrl": "https://transaction-seance.vercel.app/splash.png",
+    "splashBackgroundColor": "#1a0b2e",
+    "homeUrl": "https://transaction-seance.vercel.app"
+  }
+}
